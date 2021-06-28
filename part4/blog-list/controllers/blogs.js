@@ -31,7 +31,8 @@ blogsRouter.post('/', async (request, response) => {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
 
-  const user = await User.findById(decodedToken.id)
+  // const user = await User.findById(decodedToken.id)
+  const user = request.user
 
   const blog = new Blog({
     title: body.title,
@@ -53,7 +54,7 @@ blogsRouter.delete('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   const user = await User.findById(decodedToken.id)
 
-  console.log(`Blog: ${blog}, User: ${user}`)
+  // console.log(`Blog: ${blog}, User: ${user}`)
   if (blog.user.toString() === user._id.toString()) {
     await Blog.findByIdAndDelete(request.params.id)
     response.status(204).end()
