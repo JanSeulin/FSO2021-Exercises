@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const App = () => {
       />
     </Togglable>
   )
-  
+
   if (user === null) {
     return (
       <div>
@@ -110,7 +110,7 @@ const App = () => {
       <Notification message={errorMessage} />
 
       <p>Welcome back, {user.name}!<br/>
-      <button onClick={logout}>logout</button> 
+        <button onClick={logout}>logout</button>
       </p>
       <hr/>
       <h2>Create New</h2>
@@ -121,7 +121,7 @@ const App = () => {
         .map(blog =>
           <Blog key={blog.id} blog={blog} user={user}
             blogs={blogs} setBlogs={setBlogs}/>
-      )}
+        )}
     </div>
   )
 }
