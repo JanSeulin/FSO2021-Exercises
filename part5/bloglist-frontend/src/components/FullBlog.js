@@ -16,7 +16,7 @@ const FullBlog = ({ blog, like, deleteBlog, blogLikes, user }) => {
       <button onClick={like} className="likeButton">like</button><br/>
       Added by: {blog.user ? blog.user.username : 'test'}<br/>
       {user ? user.username === blog.user.username ?
-        <button style={buttonStyle} onClick={deleteBlog}>remove</button>
+        <button style={buttonStyle} onClick={deleteBlog} id="remove-button">remove</button>
         : ''
         : ''}
     </div>

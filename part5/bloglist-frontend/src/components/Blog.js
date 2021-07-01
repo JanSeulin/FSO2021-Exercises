@@ -68,8 +68,8 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
   }
   return (
     <div style={blogStyle} className="blogDiv">
-      {blog.title} by {blog.author} &nbsp;
-      <button onClick={() => setView(!view)}>
+      <span>{blog.title} by {blog.author}</span> &nbsp;
+      <button className="show-button" onClick={() => setView(!view)}>
         {view ? 'hide' : 'show'}
       </button>
       {view ? fullBlog() : '' }
