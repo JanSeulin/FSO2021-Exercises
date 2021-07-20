@@ -27,8 +27,7 @@ const App = () => {
   const dispatch = useDispatch()
   const selector = (state) => state.user
   const user = useSelector(selector)
-  //console.log(user)
-  //console.log(localStorage)
+
   const storeSelector = (state) => state
   const store = useSelector(storeSelector)
   const history = useHistory()
@@ -51,19 +50,16 @@ const App = () => {
   }, [dispatch])
 
 
-  console.log(store)
-
   const userMatch = useRouteMatch('/users/:id')
   const matchedUser = userMatch
     ? store.users.find(user => user.id === (userMatch.params.id))
     : null
-  console.log(matchedUser)
 
   const blogMatch = useRouteMatch('/blogs/:id')
   const matchedBlog = blogMatch
     ? store.blogs.find(blog => blog.id === (blogMatch.params.id))
     : null
-  console.log(matchedBlog)
+
   const padding = {
     padding: 5
   }

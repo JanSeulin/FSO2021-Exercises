@@ -70,4 +70,35 @@ router.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
+router.post('/:id/comments', async (request, response) => {
+  const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 })
+
+  console.log('Before updating')
+  console.log(blog)
+  if (!blog) {
+    response.status(404).end()
+  }
+
+  const comment = request.body.comment
+
+  //console.log(comment)
+
+  const newBlog = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes,
+    user: blog.user,
+    comments: blog.comments.concat(comment)
+  }
+  console.log('neeew')
+  console.log(newBlog)
+  //console.log('newBloggggg')
+  //console.log(newBlog)
+
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, newBlog, { new: true })
+    .populate('user', { username: 1, name: 1 })
+  response.json(updatedBlog.toJSON())
+
+})
 module.exports = router
