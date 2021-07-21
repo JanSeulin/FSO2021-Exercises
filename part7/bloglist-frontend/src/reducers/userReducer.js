@@ -31,18 +31,23 @@ export const loginUser = (user) => {
       const password = user.password
       const loggedUser = await loginService.login({ username, password })
       console.log(loggedUser)
+
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(loggedUser)
       )
       console.log(localStorage)
       blogService.setToken(loggedUser.token)
 
+
       dispatch({
         type: 'LOGIN_USER',
         data: loggedUser
       })
+      return 'success'
+
     } catch (exception){
-      console.log('invalid login')
+      console.log(exception)
+      return 'error'
     }
 
   }

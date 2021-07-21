@@ -27,6 +27,7 @@ const BlogForm = () => {
   const author = useField('text')
   const url = useField('text')
 
+
   const addBlog = (event) => {
     event.preventDefault()
     const newBlog = {
@@ -36,6 +37,7 @@ const BlogForm = () => {
     }
     dispatch(createBlog(newBlog))
     dispatch(notificationSet(`New blog "${newBlog.title}" by "${newBlog.author}" added`, 5))
+
     history.push('/blogs')
   }
 

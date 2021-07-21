@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-//import { notificationSet } from '../reducers/notificationReducer'
-import { loginUser } from '../reducers/userReducer'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { notificationSet } from '../reducers/notificationReducer'
+import { loginUser, getUser } from '../reducers/userReducer'
 import { useHistory } from 'react-router'
 
 const useField = (type) => {
@@ -21,6 +21,18 @@ const useField = (type) => {
 const LoginForm = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const selector = (state) => state.user
+  let loggedUser = useSelector(selector)
+
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if(loggedUserJSON) {
+      loggedUser = JSON.parse(loggedUserJSON)
+      dispatch(getUser(loggedUser))
+    }
+  }, [dispatch])
+
 
   const username = useField('text')
   const password = useField('password')
@@ -32,10 +44,18 @@ const LoginForm = () => {
       user: username.value,
       password: password.value
     }
-    console.log(user)
 
-    dispatch(loginUser(user))
-    history.push('/')
+    dispatch(loginUser(user)).then(result => {
+      if (result === 'error') {
+        dispatch(notificationSet('invalid username or password', 5))
+      } else if ( result === 'success') {
+        history.push('/')
+      }
+    }
+    )
+
+    console.log(loggedUser)
+
   }
 
   return (

@@ -23,6 +23,14 @@ import {
   useHistory,
 } from 'react-router-dom'
 
+import {
+  Container,
+  Button,
+  AppBar,
+  Toolbar
+}from '@material-ui/core'
+
+
 const App = () => {
   const dispatch = useDispatch()
   const selector = (state) => state.user
@@ -60,9 +68,9 @@ const App = () => {
     ? store.blogs.find(blog => blog.id === (blogMatch.params.id))
     : null
 
-  const padding = {
-    padding: 5
-  }
+  //const padding = {
+  //  padding: 5
+  //}
 
   const redirect = (e) => {
     e.preventDefault()
@@ -70,27 +78,38 @@ const App = () => {
   }
 
   return (
-    <div className="container">
+    <Container>
       <div>
-        <h1>Blogs</h1>
-        <Notification />
-        <div>
-          <Link style={padding} to={'/'} >Home</Link>
-          <Link style={padding} to={'/blogs'}>Blogs</Link>
-          <Link style={padding} to={'/users'}>Users</Link>
-          {user ? '' : <Link to={'/login'}>login</Link> }
-          {user ?
-            <span><i>welcome back, {user.username}!</i>
-              <button onClick={() => dispatch(logoutUser())}>logout</button>
-            </span>
-            : null
-          }
-        </div>
+        <AppBar position="static">
+          <Toolbar>
+            <Button color="inherit" component={Link} to="/">
+              home
+            </Button>
+            <Button color="inherit" component={Link} to="/blogs">
+              blogs
+            </Button>
+            <Button color="inherit" component={Link} to="/users">
+              users
+            </Button>
+            {user
+              ?
+              <div>
+                <em>{user.username} logged in</em>
+                <button onClick={() => dispatch(logoutUser())}>logout</button>
+              </div>
+              : <Button color="inherit" component={Link} to="/login">
+                login
+              </Button>
+            }
+          </Toolbar>
+        </AppBar>
+        <br/>
         {user ?
           <form onSubmit={redirect}>
-            <input type="submit" value="create-new" />
+            <input type="submit" value="create"/>
           </form> : ''}
         <hr/>
+        <Notification />
       </div>
 
       <Switch>
@@ -116,7 +135,7 @@ const App = () => {
           <Home />
         </Route>
       </Switch>
-    </div>
+    </Container>
   )
 }
 

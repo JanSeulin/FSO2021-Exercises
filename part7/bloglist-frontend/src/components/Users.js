@@ -1,49 +1,57 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { initializeUsers } from '../reducers/usersReducer'
+import {
+  TableContainer,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Paper,
+  TableHead
+} from '@material-ui/core'
+
 
 const Users = () => {
   const selector = (state) => state.users
   const users = useSelector(selector)
+  const dispatch = useDispatch()
 
-  const padding = {
-    border: '1px solid black',
-    borderCollapse: 'collapse',
-    paddingRight : 15
-  }
-
-  const style = {
-    border: '1px solid black',
-    borderCollapse: 'collapse'
-  }
-
-  const table = {
-    border: '1px solid black',
-    borderCollapse: 'collapse',
-    width: '40%'
-  }
+  useEffect(() => {
+    dispatch(initializeUsers())
+  }, [dispatch])
 
   return (
     <div>
       <h2>Users</h2>
-      <table style={table}>
-        <tr >
-          <th style={padding}>Username</th>
-          <th style={style}>Total Blogs</th>
-        </tr>
-        {users.map(user =>
-          <tr key={user.id} style={style}>
-            <td style={style}>
-              <Link to={`/users/${user.id}`}>{user.username}</Link>
-            </td>
-            <td>
-              {user.blogs.length}
-            </td>
-          </tr>
-        )}
-      </table>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>User</TableCell>
+              <TableCell>Total Blogs</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {users
+              .map(user => (
+                <TableRow key={user.id}>
+                  <TableCell>
+                    <Link to={`/users/${user.id}`}>{user.username}</Link>
+                  </TableCell>
+                  <TableCell>
+                    {user.blogs.length}
+                  </TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   )
 }
+
 
 export default Users
