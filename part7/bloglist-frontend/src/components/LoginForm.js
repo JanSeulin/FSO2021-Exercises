@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { notificationSet } from '../reducers/notificationReducer'
 import { loginUser, getUser } from '../reducers/userReducer'
 import { useHistory } from 'react-router'
+import {
+  TextField,
+  Button
+} from '@material-ui/core'
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -64,15 +68,14 @@ const LoginForm = () => {
 
       <form onSubmit={handleLogin}>
         <div>
-          Username
-          <input {...username}/>
+          <TextField label="username" {...username}/>
         </div>
         <div>
-          Password
-          <input {...password}/>
+          <TextField label="password" {...password}/>
         </div>
         <div>
-          <button type="submit" id="login-button">login</button>
+          <br/>
+          <Button variant="contained" color="primary" type="submit">login</Button>
         </div>
       </form>
     </div>

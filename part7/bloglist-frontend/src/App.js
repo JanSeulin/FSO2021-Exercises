@@ -106,7 +106,7 @@ const App = () => {
         <br/>
         {user ?
           <form onSubmit={redirect}>
-            <input type="submit" value="create"/>
+            <Button variant="outlined" color="primary" type="submit" value="create">Create new</Button>
           </form> : ''}
         <hr/>
         <Notification />

@@ -5,6 +5,17 @@ import { likeBlog, deleteBlog, addComment } from '../reducers/blogReducer'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import { initializeBlogs } from '../reducers/blogReducer'
+import {
+  Button,
+  IconButton,
+  TextField,
+  List,
+  ListItem,
+  ListItemIcon
+} from '@material-ui/core'
+import DeleteIcon from '@material-ui/icons/Delete'
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import CommentIcon from '@material-ui/icons/Comment'
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -36,12 +47,6 @@ const FullBlog = ({ blog }) => {
   const commentCopy = Object.assign({}, newComment)
   delete commentCopy.reset
 
-  const buttonStyle = {
-    color: 'white',
-    backgroundColor: 'red',
-    fontWeight: 'bold'
-  }
-
   const like = (blog) => {
     dispatch(likeBlog(blog))
   }
@@ -57,13 +62,20 @@ const FullBlog = ({ blog }) => {
 
   const addNewComment = async (event, id, comment) => {
     event.preventDefault()
-
-    newComment.reset()
-    dispatch(addComment(id, { comment }))
-    dispatch(initializeBlogs())
+    if (comment.length < 3) {
+      dispatch(notificationSet('Comments must be at least three characters long', 5))
+    } else {
+      newComment.reset()
+      dispatch(addComment(id, { comment }))
+      dispatch(initializeBlogs())
+    }
   }
 
   console.log(blog)
+
+  const paragraphStyle = {
+    fontSize: 18
+  }
 
   if(!blog || !user) {
     return null
@@ -72,14 +84,23 @@ const FullBlog = ({ blog }) => {
   return (
     <div>
       <div className="fullBlog">
-        <h2>{blog.title}</h2>
-        <a href={blog.url}>{blog.url}</a>
-        <br/>
+        <h1>{blog.title}</h1>
+        <p style={paragraphStyle}><a href={blog.url}>{blog.url}</a>
+          <br/>
         Likes: {blog.likes}&nbsp;
-        <button onClick={() => like(blog)} className="likeButton">like</button><br/>
-        Added by: <Link to={`/users/${blog.user.id}`}>{blog.user.username}</Link><br/>
+          <IconButton
+            aria-label="thumbsup"
+            color="primary"
+            size="small"
+            onClick={() => like(blog)} className="likeButton">
+            <ThumbUpAltIcon />
+          </IconButton><br/>
+        Added by: <Link to={`/users/${blog.user.id}`}>{blog.user.username}</Link><br/></p>
         {user ? user.username === blog.user.username ?
-          <button style={buttonStyle} onClick={() => removeBlog(blog)} id="remove-button">remove</button>
+          <Button variant="contained"
+            color="secondary"
+            startIcon={<DeleteIcon />}
+            onClick={() => removeBlog(blog)} id="remove-button">remove</Button>
           : ''
           : ''}
       </div>
@@ -87,17 +108,22 @@ const FullBlog = ({ blog }) => {
         <h2>Comments</h2>
         <form onSubmit={event => addNewComment(event, blog.id, newComment.value)}>
           <div>
-            <input {...commentCopy} />
-            <button type="submit">new</button>
+            <TextField label="Share your thoughts!" {...commentCopy} /><br/>
+            <Button color="primary" variant="contained" type="submit">comment</Button>
           </div>
         </form>
 
         {blog.comments.length > 0 ?
-          <ul>
+          <List>
             {blog.comments.map((comment, index) =>
-              <li key={index}>{comment}</li>
+              <ListItem key={index}>
+                <ListItemIcon>
+                  <CommentIcon />
+                </ListItemIcon>
+                {comment}
+              </ListItem>
             )}
-          </ul>
+          </List>
           : <div>no comments</div>
         }
 

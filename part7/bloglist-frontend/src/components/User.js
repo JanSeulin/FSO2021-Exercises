@@ -1,5 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import {
+  List,
+  ListItem,
+  ListItemIcon
+} from '@material-ui/core'
+import ArrowRightIcon from '@material-ui/icons/ArrowRight'
 
 const User = ({ user }) => {
   console.log(user)
@@ -11,13 +17,16 @@ const User = ({ user }) => {
     <div>
       <h2>{user.username}</h2>
       <h4>Added blogs</h4>
-      <ul>
+      <List>
         {user.blogs.map(blog =>
-          <li key={blog.id}>
+          <ListItem key={blog.id}>
+            <ListItemIcon>
+              <ArrowRightIcon />
+            </ListItemIcon>
             <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
-          </li>
+          </ListItem>
         )}
-      </ul>
+      </List>
     </div>
   )
 }

@@ -1,10 +1,7 @@
-/*.error {
-  color: red;
-  background: lightgray;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
+
+h1, h2, h3 {
+  color: 'DarkBlue';
+  font-family: 'Raleway'
 }
-*/

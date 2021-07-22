@@ -13,7 +13,7 @@ const Notification = () => {
     return null
   }
 
-  if(notification.includes('deleted')){
+  if(notification.includes('deleted') || notification.includes('Comments must be at least three characters long')){
     return (
       <Alert severity="warning">
         {notification}
